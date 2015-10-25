@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=AdamTestBot Start
+Comment=Plz
+Exec=sh /home/pi/Desktop/AdamTestBot.sh
+Type=Application
+Encoding=UTF-8
+Terminal=true
+Categories=None;

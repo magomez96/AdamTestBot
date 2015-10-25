@@ -1,0 +1,22 @@
+"""elif parsedCommand == "/word":
+                numberOfWords = 1
+                try:
+                    numberOfWords = int(current_message['message']['text'][len("/word "):])
+                except Exception:
+                    numberOfWords = 1
+
+                if numberOfWords > 5:
+                    numberOfWords = 5
+
+                response = ""
+                for i in range(0, numberOfWords):
+                    response += getWord() + "\n"
+
+                cmd_textResponse(response, response + " random word(s) at ")"""
+
+ """elif parsedCommand == "/who":
+                if len(chatInstanceArray[user_id]['whoArray']) == 0:
+                    cmd_textResponse("No list defined. Use /whodefine Name Name Name to define a list.", "No whoArray at ")
+                else: 
+                    response = getWho() + " " + current_message['message']['text'][len("/who "):]
+                    cmd_textResponse(response, response + " at ")"""

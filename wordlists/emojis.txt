@@ -1,0 +1,29 @@
+\xE2\x9C\x8A            raised fist
+\xF0\x9F\x92\xA6     droplet
+
+\xF0\x9F\x92\xA9.decode("utf-8")    poo
+\xF0\x9F\x92\xB0.decode("utf-8")     money bag
+\xF0\x9F\x93\x96.decode("utf-8")     book
+\xF0\x9F\x93\xB1.decode("utf-8")     cell phone
+\xF0\x9F\x99\x8F.decode("utf-8")    praying
+\xF0\x9F\x98\xA9.decode("utf-8")     weary face
+\xF0\x9F\x94\xA5.decode("utf-8")     fire
+\xF0\x9F\x94\xAB.decode("utf-8")     gun
+\xF0\x9F\x9A\x81.decode("utf-8")     helicopter
+\xF0\x9F\x9A\x82.decode("utf-8")     train
+\xF0\x9F\x98\xA8.decode("utf-8")     fearful face
+\xE2\x9C\x88.decode("utf-8")            airplane
+\xE2\x9D\xA4.decode("utf-8")            heart
+\xF0\x9F\x9A\xAB.decode("utf-8")    no entry sign
+\xF0\x9F\x98\xAD.decode("utf-8")    crying face
+\xE2\x9C\x94.decode("utf-8")            check mark
+\xE2\x9D\x8C.decode("utf-8")            cross mark
+\xF0\x9F\x98\x83.decode("utf-8")     smiley
+\xF0\x9F\x98\x85.decode("utf-8")      sweating smiley
+\xF0\x9F\x98\x8D.decode("utf-8")      heart eyes
+\xF0\x9F\x98\xA3.decode("utf-8")     perversing face
+
+
+\xF0\x9F\x98\xAA    sleepy face
+
+
