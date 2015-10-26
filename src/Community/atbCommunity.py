@@ -61,7 +61,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
 
 
         #this command should go last:
-    elif parsedCommand == "/community": #add your command to this list
+    	elif parsedCommand == "/community": #add your command to this list
             response = "/mom - get the camera\n"
             response += "/mooom (any number of \'o\'s) - call for help\n"
             response += "/swag - more memes\n"

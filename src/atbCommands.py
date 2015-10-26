@@ -86,7 +86,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/likes":
             sendText(atbLikes.likes(currentMessage))
 
-        elif parsedCommand == "/vehiclestest":
+        elif parsedCommand == "/vehicles":
             chatInstanceArray[chat_id]['checkingVehicles'] = True
             sendText("Do you like vehicles?", keyboardLayout=[["they\'re okay"],["I FUCKING LOVE VEHICLES"], ["they\'re okay"], ["they\'re okay"]])
 
@@ -95,8 +95,10 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             if chatInstanceArray[chat_id]['checkingVehicles']:
                 if messageText.lower() == "they\'re okay":
                     sendText("You disgust me, " + currentMessage.from_user.first_name, replyingMessageID=currentMessage.message_id)
+                    chatInstanceArray[chat_id]['checkingVehicles'] = False    
                 elif messageText.lower() == "i fucking love vehicles":
                     sendText("FUCKIN RIGHT YOU DO, " + currentMessage.from_user.first_name.upper(), replyingMessageID=currentMessage.message_id)
+                    chatInstanceArray[chat_id]['checkingVehicles'] = False
 
         #normal commands go here
 
