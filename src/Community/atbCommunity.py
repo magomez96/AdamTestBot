@@ -66,7 +66,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response += "/mooom (any number of \'o\'s) - call for help\n"
             response += "/swag - more memes\n"
 
-            sendText("response")
+            sendText(response)
 
         else:
             return False
