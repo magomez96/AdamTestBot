@@ -86,7 +86,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/likes":
             sendText(atbLikes.likes(currentMessage))
 
-        elif parsedCommand == "/vehicles":
+        elif parsedCommand == "/vehicles" and (currentMessage.from_user.id == 51561968 or currentMessage.from_user.id == 44961843): 
             chatInstanceArray[chat_id]['checkingVehicles'] = True
             sendText("Do you like vehicles?", keyboardLayout=[["they\'re okay"],["I FUCKING LOVE VEHICLES"], ["they\'re okay"], ["they\'re okay"]])
 
