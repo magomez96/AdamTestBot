@@ -56,7 +56,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                 sendText(response + "M")
 
         elif parsedCommand == "/swag":
-            sendText("swiggity swag, what\'ts in the bag?")
+            sendText("swiggity swag, what\'s in the bag?")
 
 
 
