@@ -57,8 +57,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                         chatInstanceArray[chat_id]['adminDisable'] = False
                         sendText("Adam has enabled me.")
                     elif messageText.lower().split()[1] == "sendto":
-                        atbSendFunctions.sendText(bot, int(messageText.lower().split()[1]), messageText[15 + len(messageText.split()[2]):])
-                        return False
+                        atbSendFunctions.sendText(bot, int(messageText.lower().split()[2]), messageText[15 + len(messageText.split()[2]):])
                 except Exception:
                     pass
 
