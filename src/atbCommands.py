@@ -164,6 +164,9 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             else:
                 sendText("Yes.")
 
+	elif parsedCommand == "/scrub":
+	    sendText("AdamTestBot, brought to you by ScrubSoft (C)")
+
         elif parsedCommand == "/gtg":
             sendText(currentMessage.from_user.first_name + "\'s mom is here; they have to go.")
 
