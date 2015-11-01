@@ -39,7 +39,7 @@ while networkFailure:
 print "...Connected!"
 
 instanceAge = 0
-refreshRate = 2.5
+refreshRate = 0.1
 user_id = 0
 
 running = True
