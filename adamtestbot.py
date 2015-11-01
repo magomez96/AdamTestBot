@@ -9,6 +9,7 @@ import json
 import traceback
 import os
 import telegram
+import gc
 
 import src.atbCommands as atbCommands
 
@@ -71,5 +72,6 @@ while running:
 
         except Exception as myException:
             print traceback.format_exc()
+    gc.collect()
     instanceAge += refreshRate
     time.sleep(refreshRate)
