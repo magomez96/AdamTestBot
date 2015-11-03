@@ -59,7 +59,17 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             sendText("swiggity swag, what\'s in the bag?")
 
         elif parsedCommand == "/worms":
-        	sendText("hey man can I borrow your worms")
+        	if passSpamCheck():
+        		response = "hey man can I borrow your "
+        		if len(messageText) > len("/worms "):
+        			response += messageText[len("/worms "):]
+        		else
+        			response += "worms"
+        		sendText(response)
+
+        elif parsedCommand == "/shh" or parsedCommand == "/shhh":
+        	if passSpamCheck():
+        		sendPhoto("shhh.jpg")
 
 
 
@@ -69,6 +79,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response += "/mooom (any number of \'o\'s) - call for help\n"
             response += "/swag - more memes\n"
             response += "/worms - can I borrow them?\n"
+            response += "/shh(h) - here, be relaxed\n"
 
             sendText(response)
 
