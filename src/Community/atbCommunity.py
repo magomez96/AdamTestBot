@@ -58,6 +58,9 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/swag":
             sendText("swiggity swag, what\'s in the bag?")
 
+        elif parsedCommand == "/worms":
+        	sendText("hey man can I borrow your worms")
+
 
 
         #this command should go last:
@@ -65,6 +68,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response = "/mom - get the camera\n"
             response += "/mooom (any number of \'o\'s) - call for help\n"
             response += "/swag - more memes\n"
+            response += "/worms - can I borrow them?\n"
 
             sendText(response)
 
