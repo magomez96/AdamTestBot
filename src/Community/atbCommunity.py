@@ -63,7 +63,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         		response = "hey man can I borrow your "
         		if len(messageText) > len("/worms "):
         			response += messageText[len("/worms "):]
-        		else
+        		else:
         			response += "worms"
         		sendText(response)
 
