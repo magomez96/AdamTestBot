@@ -73,9 +73,6 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/whocoulditbe":
             sendText(atbAdLib.whoCouldItBe(chat_id))
 
-        elif atbAdLib.is_valid_text_overwrite(messageText): #all adlibbing logic done here
-            sendText(atbAdLib.overwrite_response(messageText, currentMessage.from_user.first_name, chat_id))
-
         elif parsedCommand == "/like":
             atbLikes.handleLikes(True, currentMessage)
 
@@ -88,16 +85,6 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/vehicles" and (currentMessage.from_user.id == 51561968 or currentMessage.from_user.id == 44961843): 
             chatInstanceArray[chat_id]['checkingVehicles'] = True
             sendText("Do you like vehicles?", keyboardLayout=[["they\'re okay"],["I FUCKING LOVE VEHICLES"], ["they\'re okay"], ["they\'re okay"]])
-
-
-        elif parsedCommand[0] != "/" and parsedCommand[0] != "@": #normal text
-            if chatInstanceArray[chat_id]['checkingVehicles']:
-                if messageText.lower() == "they\'re okay":
-                    sendText("You disgust me, " + currentMessage.from_user.first_name, replyingMessageID=currentMessage.message_id)
-                    chatInstanceArray[chat_id]['checkingVehicles'] = False    
-                elif messageText.lower() == "i fucking love vehicles":
-                    sendText("FUCKIN RIGHT YOU DO, " + currentMessage.from_user.first_name.upper(), replyingMessageID=currentMessage.message_id)
-                    chatInstanceArray[chat_id]['checkingVehicles'] = False
 
         #normal commands go here
 
@@ -221,6 +208,18 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/more":
             sendText(atbMiscFunctions.moreResponse())
 
+        elif atbAdLib.is_valid_text_overwrite(messageText): #all adlibbing logic done here
+            sendText(atbAdLib.overwrite_response(messageText, currentMessage.from_user.first_name, chat_id))
+
+        elif parsedCommand[0] != "/" and parsedCommand[0] != "@": #normal text
+            if chatInstanceArray[chat_id]['checkingVehicles']:
+                if messageText.lower() == "they\'re okay":
+                    sendText("You disgust me, " + currentMessage.from_user.first_name, replyingMessageID=currentMessage.message_id)
+                    chatInstanceArray[chat_id]['checkingVehicles'] = False    
+                elif messageText.lower() == "i fucking love vehicles":
+                    sendText("FUCKIN RIGHT YOU DO, " + currentMessage.from_user.first_name.upper(), replyingMessageID=currentMessage.message_id)
+                    chatInstanceArray[chat_id]['checkingVehicles'] = False
+                    
         else:
             if not atbCommunity.process(bot, chat_id, parsedCommand, messageText, currentMessage, update, instanceAge):
                 pass
