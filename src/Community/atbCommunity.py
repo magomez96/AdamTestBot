@@ -70,6 +70,12 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/shh" or parsedCommand == "/shhh":
         	if passSpamCheck():
         		sendPhoto("shhh.jpg")
+        
+        elif parsedCommand == "/father":
+            if (random.randint(0, 1)):
+                sendText("You ARE the father!")
+            else:
+                sendText("You are NOT the father!")
 
 
 
@@ -80,6 +86,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response += "/swag - more memes\n"
             response += "/worms - can I borrow them?\n"
             response += "/shh(h) - here, be relaxed\n"
+            response += "/father - are you the father?\n"
 
             sendText(response)
 
