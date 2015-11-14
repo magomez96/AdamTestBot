@@ -77,6 +77,16 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             else:
                 sendText("You are NOT the father!")
 
+        elif parsedCommand == "/rip":   #sends "I can't believe that [name (defaults to sender's name)] is fucking dead."
+            if passSpamCheck():
+                response = "I can't believe that "
+                if len(messageText) > len("/rip "):
+                    response += messageText[len("/rip "):]
+                else:
+                    response += currentMessage.from_user.first_name
+                response += " is fucking dead."
+                sendText(response)
+
 
 
         #this command should go last:
@@ -87,6 +97,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response += "/worms - can I borrow them?\n"
             response += "/shh(h) - here, be relaxed\n"
             response += "/father - are you the father?\n"
+            response += "/rip (something) - I can't believe they're dead!\n"
 
             sendText(response)
 
