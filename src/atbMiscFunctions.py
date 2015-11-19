@@ -394,7 +394,7 @@ def blaze(currentMessage):
 
             if not userWasFound:
                 writer.writerow({'username': currentMessage.from_user.id, 'name': currentMessage.from_user.first_name, 'counter': pointsReceived, 'timestamp': int(time.mktime(currentMessage.date.timetuple()))})
-                userPoints = 1
+                userPoints = pointsReceived
 
 
         if valueSuccessfullyChanged or not userWasFound:

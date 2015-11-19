@@ -59,17 +59,17 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             sendText("swiggity swag, what\'s in the bag?")
 
         elif parsedCommand == "/worms":
-        	if passSpamCheck():
-        		response = "hey man can I borrow your "
-        		if len(messageText) > len("/worms "):
-        			response += messageText[len("/worms "):]
-        		else:
-        			response += "worms"
-        		sendText(response)
+            if passSpamCheck():
+                response = "hey man can I borrow your "
+                if len(messageText) > len("/worms "):
+                    response += messageText[len("/worms "):]
+                else:
+                    response += "worms"
+                sendText(response)
 
         elif parsedCommand == "/shh" or parsedCommand == "/shhh":
-        	if passSpamCheck():
-        		sendPhoto("shhh.jpg")
+            if passSpamCheck():
+                sendPhoto("shhh.jpg")
         
         elif parsedCommand == "/father":
             if (random.randint(0, 1)):
@@ -87,10 +87,117 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                 response += " is fucking dead."
                 sendText(response)
 
+        elif parsedCommand == "/scrub":
+            checkingStats = False
+            try:
+                if currentMessage.text.lower().split()[1] == "stats":
+                    with open('chatStorage/scrub.csv', 'r+') as csvfile:
+                        reader = csv.DictReader(csvfile)
+                        K = list(reader)
+                        sortedK = sorted(K, key=lambda x: int(x['counter']), reverse=True)
+                        outputString = "SCRUBBIEST LEADERBOARD:\n"
+                        for user in sortedK:
+                            pluralString = " SCRUB POINT"
+                            if not(int(user['counter']) == 1):
+                                pluralString += "S"
+                            pluralString += "\n"
+
+                            outputString += user['name'].upper() + ": " + user['counter'] + pluralString
+                        sendText(outputString)
+                        checkingStats = True
+            except IndexError:
+                pass
+
+            if not checkingStats and (currentMessage.from_user.id == 169883788 or currentMessage.from_user.id == 44961843):
+                fieldnames = ['username', 'name', 'counter']
+                K = list()
+
+                with open('chatStorage/scrub.csv', 'r+') as csvfile:
+                    reader = csv.DictReader(csvfile)
+                    K = list(reader)
+
+                    userWasFound = False
+                    valueSuccessfullyChanged = False
+                    userPoints = 0
+
+                    for user in K:
+                        if int(user['username']) == currentMessage.reply_to_message.from_user.id:
+                            user['counter'] = int(user['counter']) + 1
+                            userPoints = user['counter']
+                            valueSuccessfullyChanged = True
+                            userWasFound = True
+                with open('chatStorage/scrub.csv', 'w+') as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for x in K:
+                        writer.writerow(x)
+
+                    if not userWasFound:
+                        writer.writerow({'username': currentMessage.reply_to_message.from_user.id, 'name': currentMessage.reply_to_message.from_user.first_name, 'counter': 1})
+                        userPoints = 1
+
+                if valueSuccessfullyChanged or not userWasFound:
+                    sendText("Matt Gomez awarded a scrub point to " + currentMessage.reply_to_message.from_user.first_name + ".")
+            
+            elif not checkingStats:
+                sendText("AdamTestBot, powered by ScrubSoft (C)");
+
+        elif parsedCommand == "/hiss":
+            checkingStats = False
+            try:
+                if currentMessage.text.lower().split()[1] == "stats":
+                    with open('chatStorage/hiss.csv', 'r+') as csvfile:
+                        reader = csv.DictReader(csvfile)
+                        K = list(reader)
+                        sortedK = sorted(K, key=lambda x: int(x['counter']), reverse=True)
+                        outputString = "Hiss Leaderboard:\n"
+                        for user in sortedK:
+                            pluralString = " hiss"
+                            if not(int(user['counter']) == 1):
+                                pluralString += "es"
+                            pluralString += "\n"
+
+                            outputString += user['name'] + ": " + user['counter'] + pluralString
+                        sendText(outputString)
+                        checkingStats = True
+            except IndexError:
+                pass
+
+            if not checkingStats and (currentMessage.from_user.id == 122526873 or currentMessage.from_user.id == 44961843):
+                fieldnames = ['username', 'name', 'counter']
+                K = list()
+
+                with open('chatStorage/hiss.csv', 'r+') as csvfile:
+                    reader = csv.DictReader(csvfile)
+                    K = list(reader)
+
+                    userWasFound = False
+                    valueSuccessfullyChanged = False
+                    userPoints = 0
+
+                    for user in K:
+                        if int(user['username']) == currentMessage.reply_to_message.from_user.id:
+                            user['counter'] = int(user['counter']) + 1
+                            userPoints = user['counter']
+                            valueSuccessfullyChanged = True
+                            userWasFound = True
+                with open('chatStorage/hiss.csv', 'w+') as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for x in K:
+                        writer.writerow(x)
+
+                    if not userWasFound:
+                        writer.writerow({'username': currentMessage.reply_to_message.from_user.id, 'name': currentMessage.reply_to_message.from_user.first_name, 'counter': 1})
+                        userPoints = 1
+
+                if valueSuccessfullyChanged or not userWasFound:
+                    sendText("Robyn hissed at " + currentMessage.reply_to_message.from_user.first_name + ".")
+
 
 
         #this command should go last:
-    	elif parsedCommand == "/community": #add your command to this list
+        elif parsedCommand == "/community": #add your command to this list
             response = "/mom - get the camera\n"
             response += "/mooom (any number of \'o\'s) - call for help\n"
             response += "/swag - more memes\n"
@@ -98,6 +205,8 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response += "/shh(h) - here, be relaxed\n"
             response += "/father - are you the father?\n"
             response += "/rip (something) - I can't believe they're dead!\n"
+            response += "/hiss stats - see how many time Robyn has hissed at people\n"
+            response += "/scrub or /scrub stats - see who sponsors me or how many times Matt Gomez has called you a scrub\n"
 
             sendText(response)
 
