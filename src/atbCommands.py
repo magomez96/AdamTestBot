@@ -188,7 +188,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             sendText(atbMiscFunctions.eightBall())
 
         elif parsedCommand == "/debug":
-            sentText("ID: " + chat_id)
+            sendText("ID: " + str(chat_id))
 
         elif parsedCommand == "/shotty":
             if time.mktime(currentMessage.date.timetuple()) - 3600 > chatInstanceArray[chat_id]['shottyTimestamp']:
