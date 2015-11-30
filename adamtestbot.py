@@ -43,6 +43,8 @@ instanceAge = 0
 refreshRate = 0.75
 user_id = 0
 
+blacklist = [-23535579, -28477145]
+
 running = True
 while running:
     networkFailure = True
@@ -65,9 +67,9 @@ while running:
         currentMessage = u.message
         try:
             user_id = currentMessage.chat.id
-            parsedCommand = re.split(r'[@\s:,\'*]', currentMessage.text.lower())[0]
-
-            running = atbCommands.process(atb, user_id, parsedCommand, currentMessage.text, currentMessage, u, instanceAge)
+            if user_id not in blacklist:
+                parsedCommand = re.split(r'[@\s:,\'*]', currentMessage.text.lower())[0]
+                running = atbCommands.process(atb, user_id, parsedCommand, currentMessage.text, currentMessage, u, instanceAge)
 
 
         except Exception as myException:

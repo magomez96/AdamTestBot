@@ -166,8 +166,6 @@ def overwrite_response(s, name, chat_id):
 def is_valid_text_overwrite(s):
     theString = s.lower()
     valid = "/who" in theString
-    print theString
-    print theString.endswith("/me")
     valid = valid or ("/me " in theString or "/me." in theString or theString.endswith("/me"))
     valid = valid or "/word" in theString
     valid = valid or "/verb" in theString
