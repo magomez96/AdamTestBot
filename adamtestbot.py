@@ -40,7 +40,7 @@ while networkFailure:
 print "...Connected!"
 
 instanceAge = 0
-refreshRate = 0.75
+refreshRate = 0.2
 user_id = 0
 
 blacklist = [-23535579, -28477145]
@@ -57,7 +57,7 @@ while running:
         except Exception:
             print "...",
 
-    if instanceAge % (refreshRate * 10) == 0: #print 1 X every eight ticks
+    if instanceAge % 10 == 0: #print 1 X every ten ticks
         print "Y"
     else:
         print "X",
@@ -69,11 +69,11 @@ while running:
             user_id = currentMessage.chat.id
             if user_id not in blacklist:
                 parsedCommand = re.split(r'[@\s:,\'*]', currentMessage.text.lower())[0]
-                running = atbCommands.process(atb, user_id, parsedCommand, currentMessage.text, currentMessage, u, instanceAge)
+                running = atbCommands.process(atb, user_id, parsedCommand, currentMessage.text, currentMessage, u, ceil(instanceAge * refreshRate))
 
 
         except Exception as myException:
             print traceback.format_exc()
     gc.collect()
-    instanceAge += refreshRate
+    instanceAge += 1
     time.sleep(refreshRate)
