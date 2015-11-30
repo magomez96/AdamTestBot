@@ -185,7 +185,10 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                 sendText(currentMessage.from_user.first_name + "\'s a lazy shit. It isn\'t morning anymore! " + telegram.emoji.Emoji.WEARY_FACE.decode("utf-8"))
 
         elif parsedCommand == "/8ball":
-            sendText(atbMiscFunctions.eightBall())
+            if currentMessage.from_user.id == 68536910:
+                sendText(telegram.emoji.Emoji.SPARKLING_HEART)
+            else:
+                sendText(atbMiscFunctions.eightBall())
 
         elif parsedCommand == "/debug":
             sendText("ID: " + str(chat_id))
