@@ -91,8 +91,7 @@ while running:
     if previousTime.minute != currentTime.minute:
         if currentTime.hour == 16 and currentTime.minute == 21: #commit Blaze Database
             __builtin__.blazeDB.commit()
-        elif currentTime.hour == 16 and currentTime.minute == 22: #TEST
-            atb.sendMessage(chat_id=-12788453, text="AUTOMATED")
+            atb.sendMessage(chat_id=-12788453, text="Successfully committed Blaze database.")
 
     previousTime = currentTime
 
