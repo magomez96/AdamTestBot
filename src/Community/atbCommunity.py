@@ -17,6 +17,9 @@ import telegram
 from .. import atbSendFunctions
 from .. import atbMiscFunctions
 
+from pydblite import Base #The PyDbLite stuff
+import __builtin__
+
 #If you make your own python files for processing data, put them
 #In the community folder and import them here:
 
@@ -193,8 +196,6 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
 
                 if valueSuccessfullyChanged or not userWasFound:
                     sendText("Robyn hissed at " + currentMessage.reply_to_message.from_user.first_name + ".")
-
-
 
         #this command should go last:
         elif parsedCommand == "/community": #add your command to this list

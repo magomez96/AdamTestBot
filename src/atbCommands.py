@@ -17,6 +17,9 @@ import atbAdLib
 import atbLikes
 import Community.atbCommunity as atbCommunity
 
+from pydblite import Base #The PyDbLite stuff
+import __builtin__
+
 chatInstanceArray = {}
 spamLimitTime = 15
 messageSent = 1
@@ -108,6 +111,13 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/blaze":
             sendText(atbMiscFunctions.blaze(currentMessage))
 
+        elif parsedCommand == "/blazecommit" and currentMessage.from_user.id == 44961843:
+            __builtin__.blazeDB.commit()
+
+        elif parsedCommand == "/blazeopen" and currentMessage.from_user.id == 44961843:
+            __builtin__.blazeDB = Base('chatStorage/blaze.pdl') #The path to the database
+            __builtin__.blazeDB.create('username', 'name', 'counter', 'timestamp', mode="open") #Create a new DB if one doesn't exist. If it does, open it
+
         elif parsedCommand == "/snail":
             sendText(atbMiscFunctions.snailResponse(messageText))
 
@@ -142,7 +152,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             sendText(atbMiscFunctions.fightResponse(currentMessage))
 
         elif parsedCommand == "/age":
-            sendText("This instance has been running for " + atbMiscFunctions.ageCommand(instanceAge) + " and has sent " + str(messageSent) + " messages!")
+            sendText("This instance has been running for " + atbMiscFunctions.ageCommand(instanceAge.total_seconds()) + " and has sent " + str(messageSent) + " messages!")
 
         elif parsedCommand == "/yesorno":
             x = random.randint(0, 1)
