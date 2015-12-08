@@ -21,8 +21,11 @@ def printdb(dbpath): #Prints the contents of a PyDBLite database to the console
     db = Base(dbpath)
     if db.exists():
         db.open()
+        retstr = ""
         for obj in db:
-            print obj
-            print "\n"
+            retstr += str(obj)
+            retstr += "\n"
+        print retstr
+        return retstr
     else:
-        print "The database does not exist.\n"
+        print "The database does not exist or is corrupt.\n"
