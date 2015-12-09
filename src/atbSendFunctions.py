@@ -31,3 +31,8 @@ def sendPhoto(bot, chat_id, imagePath):
     bot.sendChatAction(chat_id=chat_id, action='upload_photo')
     print "Sending picture to " + str(chat_id)
     bot.sendPhoto(chat_id=chat_id, photo=open(imagePath, "rb"))
+
+def sendSticker(bot, chat_id, sticker):
+    bot.sendChatAction(chat_id=chat_id, action='typing')
+    print "Sending sticker to " + str(chat_id)
+    bot.sendSticker(chat_id=chat_id, sticker=open(sticker, "rb"))

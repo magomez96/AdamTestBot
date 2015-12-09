@@ -36,6 +36,9 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
     def sendPhoto(imageName):
         atbSendFunctions.sendPhoto(bot, chat_id, "images/"+ imageName)
 
+    def sendSticker(stickerName)
+        atbSendFunctions.sendSticker(bot, chat_id, "stickers/"+ stickerName)
+
     def passSpamCheck():
         return atbMiscFunctions.spamCheck(chat_id, currentMessage.date)
 
@@ -73,7 +76,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/shh" or parsedCommand == "/shhh":
             if passSpamCheck():
                 sendPhoto("shhh.jpg")
-        
+
         elif parsedCommand == "/father":
             if (random.randint(0, 1)):
                 sendText("You ARE the father!")
@@ -141,7 +144,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
 
                 if valueSuccessfullyChanged or not userWasFound:
                     sendText("Matt Gomez awarded a scrub point to " + currentMessage.reply_to_message.from_user.first_name + ".")
-            
+
             elif not checkingStats:
                 sendText("AdamTestBot, powered by ScrubSoft (C)");
 
