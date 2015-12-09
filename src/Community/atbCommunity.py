@@ -200,6 +200,12 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                 if valueSuccessfullyChanged or not userWasFound:
                     sendText("Robyn hissed at " + currentMessage.reply_to_message.from_user.first_name + ".")
 
+        elif parsedCommand == "/water":
+            if (random.randint(0, 1) == 0):
+                sendSticker("water.webp")
+            else:
+                sendSticker("hoboken_water.webp")
+
         #this command should go last:
         elif parsedCommand == "/community": #add your command to this list
             response = "/mom - get the camera\n"
@@ -211,7 +217,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response += "/rip (something) - I can't believe they're dead!\n"
             response += "/hiss stats - see how many time Robyn has hissed at people\n"
             response += "/scrub or /scrub stats - see who sponsors me or how many times Matt Gomez has called you a scrub\n"
-
+            response += "/water - does this water look brown to you?"
             sendText(response)
 
         else:
