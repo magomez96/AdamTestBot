@@ -54,7 +54,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif atbMiscFunctions.isMoom(parsedCommand): #sends M {random number of Os} M
             if passSpamCheck(): #use this to prevent spamming of a command
                 response = "M"
-                for i in range (0, random.randint(3, 75)):
+                for i in range(0, random.randint(3, 75)):
                     response += "O"
                 sendText(response + "M")
 
@@ -73,7 +73,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/shh" or parsedCommand == "/shhh":
             if passSpamCheck():
                 sendPhoto("shhh.jpg")
-        
+
         elif parsedCommand == "/father":
             if (random.randint(0, 1)):
                 sendText("You ARE the father!")
@@ -94,105 +94,87 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             checkingStats = False
             try:
                 if currentMessage.text.lower().split()[1] == "stats":
-                    with open('chatStorage/scrub.csv', 'r+') as csvfile:
-                        reader = csv.DictReader(csvfile)
-                        K = list(reader)
-                        sortedK = sorted(K, key=lambda x: int(x['counter']), reverse=True)
-                        outputString = "SCRUBBIEST LEADERBOARD:\n"
-                        for user in sortedK:
-                            pluralString = " SCRUB POINT"
-                            if not(int(user['counter']) == 1):
-                                pluralString += "S"
-                            pluralString += "\n"
-
-                            outputString += user['name'].upper() + ": " + user['counter'] + pluralString
-                        sendText(outputString)
-                        checkingStats = True
+                    db = Base('chatStorage/scrub.pdl') #The path to the DB
+                    db.create('username', 'name', 'counter', mode="open")
+                    K = list()
+                    for user in db:
+                        K.append(user)
+                    sortedK = sorted(K, key=lambda x: int(x['counter']), reverse=True)
+                    outputString = "SCRUBBIEST LEADERBOARD:\n"
+                    for user in sortedK:
+                        pluralString = " SCRUB POINT"
+                        if not(int(user['counter']) == 1):
+                            pluralString += "S"
+                        pluralString += "\n"
+                        outputString += user['name'].upper() + ": " + str(user['counter']) + pluralString
+                    sendText(outputString)
+                    checkingStats = True
             except IndexError:
                 pass
 
             if not checkingStats and (currentMessage.from_user.id == 169883788 or currentMessage.from_user.id == 44961843):
-                fieldnames = ['username', 'name', 'counter']
-                K = list()
+                db = Base('chatStorage/scrub.pdl')
+                db.create('username', 'name', 'counter', mode="open")
 
-                with open('chatStorage/scrub.csv', 'r+') as csvfile:
-                    reader = csv.DictReader(csvfile)
-                    K = list(reader)
+                userWasFound = False
+                valueSuccessfullyChanged = False
 
-                    userWasFound = False
-                    valueSuccessfullyChanged = False
-                    userPoints = 0
+                for user in db:
+                    if int(user['username']) == currentMessage.reply_to_message.from_user.id:
+                        db.update(user, counter=int(user['counter']) + 1)
+                        valueSuccessfullyChanged = True
+                        userWasFound = True
+                db.commit()
 
-                    for user in K:
-                        if int(user['username']) == currentMessage.reply_to_message.from_user.id:
-                            user['counter'] = int(user['counter']) + 1
-                            userPoints = user['counter']
-                            valueSuccessfullyChanged = True
-                            userWasFound = True
-                with open('chatStorage/scrub.csv', 'w+') as csvfile:
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                    writer.writeheader()
-                    for x in K:
-                        writer.writerow(x)
-
-                    if not userWasFound:
-                        writer.writerow({'username': currentMessage.reply_to_message.from_user.id, 'name': currentMessage.reply_to_message.from_user.first_name, 'counter': 1})
-                        userPoints = 1
+                if not userWasFound:
+                    db.insert(currentMessage.reply_to_message.from_user.id, currentMessage.reply_to_message.from_user.first_name, 1)
+                    db.commit()
 
                 if valueSuccessfullyChanged or not userWasFound:
                     sendText("Matt Gomez awarded a scrub point to " + currentMessage.reply_to_message.from_user.first_name + ".")
-            
+
             elif not checkingStats:
-                sendText("AdamTestBot, powered by ScrubSoft (C)");
+                sendText("AdamTestBot, powered by ScrubSoft (C)")
 
         elif parsedCommand == "/hiss":
             checkingStats = False
             try:
                 if currentMessage.text.lower().split()[1] == "stats":
-                    with open('chatStorage/hiss.csv', 'r+') as csvfile:
-                        reader = csv.DictReader(csvfile)
-                        K = list(reader)
-                        sortedK = sorted(K, key=lambda x: int(x['counter']), reverse=True)
-                        outputString = "Hiss Leaderboard:\n"
-                        for user in sortedK:
-                            pluralString = " hiss"
-                            if not(int(user['counter']) == 1):
-                                pluralString += "es"
-                            pluralString += "\n"
-
-                            outputString += user['name'] + ": " + user['counter'] + pluralString
-                        sendText(outputString)
-                        checkingStats = True
+                    db = Base('chatStorage/hiss.pdl')
+                    db.create('username', 'name', 'counter', mode="open")
+                    K = list()
+                    for user in db:
+                        K.append(user)
+                    sortedK = sorted(K, key=lambda x: int(x['counter']), reverse=True)
+                    outputString = "Hiss Leaderboard:\n"
+                    for user in sortedK:
+                        pluralString = " hiss"
+                        if not(int(user['counter']) == 1):
+                            pluralString += "es"
+                        pluralString += "\n"
+                        outputString += user['name'] + ": " + str(user['counter']) + pluralString
+                    sendText(outputString)
+                checkingStats = True
             except IndexError:
                 pass
 
             if not checkingStats and (currentMessage.from_user.id == 122526873 or currentMessage.from_user.id == 44961843):
-                fieldnames = ['username', 'name', 'counter']
-                K = list()
+                db = Base('chatStorage/hiss.pdl')
+                db.create('username', 'name', 'counter', mode="open")
 
-                with open('chatStorage/hiss.csv', 'r+') as csvfile:
-                    reader = csv.DictReader(csvfile)
-                    K = list(reader)
+                userWasFound = False
+                valueSuccessfullyChanged = False
 
-                    userWasFound = False
-                    valueSuccessfullyChanged = False
-                    userPoints = 0
-
-                    for user in K:
-                        if int(user['username']) == currentMessage.reply_to_message.from_user.id:
-                            user['counter'] = int(user['counter']) + 1
-                            userPoints = user['counter']
-                            valueSuccessfullyChanged = True
-                            userWasFound = True
-                with open('chatStorage/hiss.csv', 'w+') as csvfile:
-                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                    writer.writeheader()
-                    for x in K:
-                        writer.writerow(x)
-
-                    if not userWasFound:
-                        writer.writerow({'username': currentMessage.reply_to_message.from_user.id, 'name': currentMessage.reply_to_message.from_user.first_name, 'counter': 1})
-                        userPoints = 1
+                for user in db:
+                    if int(user['username']) == currentMessage.reply_to_message.from_user.id:
+                        db.update(user, counter=int(user['counter']) + 1)
+                        valueSuccessfullyChanged = True
+                        userWasFound = True
+                db.commit()
+                
+                if not userWasFound:
+                    db.insert(currentMessage.reply_to_message.from_user.id, currentMessage.reply_to_message.from_user.first_name, 1)
+                    db.commit()
 
                 if valueSuccessfullyChanged or not userWasFound:
                     sendText("Robyn hissed at " + currentMessage.reply_to_message.from_user.first_name + ".")
