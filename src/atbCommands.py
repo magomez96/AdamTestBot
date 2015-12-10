@@ -42,7 +42,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
     def sendSticker(stickerName):
         global messageSent
         messageSent += 1
-        botSendFunctions.sendSticker(bot, chat_id, "stickers/" + stickerName)
+        atbSendFunctions.sendSticker(bot, chat_id, "stickers/" + stickerName)
 
     def passSpamCheck():
         return atbMiscFunctions.spamCheck(chat_id, currentMessage.date)

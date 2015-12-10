@@ -36,7 +36,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
     def sendPhoto(imageName):
         atbSendFunctions.sendPhoto(bot, chat_id, "images/"+ imageName)
 
-    def sendSticker(stickerName)
+    def sendSticker(stickerName):
         atbSendFunctions.sendSticker(bot, chat_id, "stickers/"+ stickerName)
 
     def passSpamCheck():
@@ -87,7 +87,10 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             if passSpamCheck():
                 response = "I can't believe that "
                 if len(messageText) > len("/rip "):
-                    response += messageText[len("/rip "):]
+                    if (messageText[len("/rip "):] == "me"):
+                        response += currentMessage.from_user.first_name
+                    else:
+                        response += messageText[len("/rip "):]
                 else:
                     response += currentMessage.from_user.first_name
                 response += " is fucking dead."
