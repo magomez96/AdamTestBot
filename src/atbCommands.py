@@ -84,6 +84,11 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/like":
             atbLikes.handleLikes(True, currentMessage)
 
+        elif parsedCommand == "/lile":
+            atbLikes.handleLikes(True, currentMessage)
+            if passSpamCheck():
+                sendText("I guess /lile is close enough.")
+
         elif parsedCommand == "/dislike":
             atbLikes.handleLikes(False, currentMessage)
 
