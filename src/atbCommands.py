@@ -78,6 +78,12 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             else:
                 sendText("Entries cleared. Define new array before using /who")
 
+        elif parsedCommand == "/whoadd":
+            if atbAdLib.whoAdd(chat_id, messageText):
+                sendText("Entries stored to file.")
+            else:
+                sendText("USAGE: /whoadd Name or /whoadd Name, Name...")
+
         elif parsedCommand == "/whocoulditbe":
             sendText(atbAdLib.whoCouldItBe(chat_id))
 
