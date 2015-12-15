@@ -20,15 +20,16 @@
 """This module contains methods to make POST and GET requests"""
 
 import json
+import socket
+from ssl import SSLError
 
 try:
-    from urllib.parse import urlencode
     from urllib.request import urlopen, urlretrieve, Request
-    from urllib.error import HTTPError, URLError
+    from urllib.error import HTTPError
 except ImportError:
-    from urllib import urlencode, urlretrieve
+    from urllib import urlretrieve
     from urllib2 import urlopen, Request
-    from urllib2 import HTTPError, URLError
+    from urllib2 import HTTPError
 
 from telegram import (InputFile, TelegramError)
 
@@ -67,17 +68,29 @@ def get(url):
 
 
 def post(url,
-         data):
+         data,
+         network_delay=2.):
     """Request an URL.
     Args:
       url:
         The web location we want to retrieve.
       data:
         A dict of (str, unicode) key/value pairs.
+      network_delay:
+        Additional timeout in seconds to allow the response from Telegram to
+        take some time.
 
     Returns:
       A JSON object.
     """
+
+    # Add time to the timeout of urlopen to allow data to be transferred over
+    # the network.
+    if 'timeout' in data:
+        timeout = data['timeout'] + network_delay
+    else:
+        timeout = None
+
     try:
         if InputFile.is_inputfile(data):
             data = InputFile(data)
@@ -90,16 +103,24 @@ def post(url,
                               data=data.encode(),
                               headers={'Content-Type': 'application/json'})
 
-        result = urlopen(request).read()
+        result = urlopen(request, timeout=timeout).read()
     except HTTPError as error:
         if error.getcode() == 403:
             raise TelegramError('Unauthorized')
         if error.getcode() == 502:
             raise TelegramError('Bad Gateway')
 
-        message = _parse(error.read())
-        raise TelegramError(message)
+        try:
+            message = _parse(error.read())
+        except ValueError:
+            message = 'Unknown HTTPError'
 
+        raise TelegramError(message)
+    except (SSLError, socket.timeout) as error:
+        if "operation timed out" in str(error):
+            raise TelegramError("Timed out")
+
+        raise TelegramError(str(error))
     return _parse(result)
 
 

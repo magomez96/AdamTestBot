@@ -12,7 +12,7 @@ import os
 import telegram
 
 from pydblite import Base #The PyDbLite stuff
-import __builtin__
+import builtins
 
 messagesSent = 0
 spamLimitTime = 15
@@ -79,8 +79,6 @@ def spamCheck(chat_id, date):
         return True
     else:
         return False
-
-
 
 def atReply():
     x = random.randint(0, 5)
@@ -176,21 +174,20 @@ def snailResponse(messageText):
         return "Usage: /snail word - NO WEIRD CHARACTERS."
 
 def objectionResponse(currentMessage):
-    response = ""
     try:
         if currentMessage.reply_to_message.username.lower() == "adamtestbot":
             response = "Objecting to me, " + currentMessage.from_user.first_name + "? Overruled."
         else:
             response = currentMessage.from_user.first_name.upper() + " OBJECTS TO WHAT " + currentMessage.reply_to_message.from_user.first_name.upper() + " SAID HERE!"
     except Exception: #reply_to_message didn't exist
-        response = "Object to messages by replying to them with /object."
+        response = "Object to messages by replying to them with /objection."
     return response
 
 def ageCommand(instanceAge):
-    weeks = int(instanceAge/(3600*24*7))
-    days = int((instanceAge - (weeks * 3600 * 24 * 7))/(3600*24))
-    hours = int((instanceAge - (weeks * 3600 * 24 * 7) - (days * (3600 * 24)))/3600)
-    minutes = int((instanceAge - (weeks * 3600 * 24 * 7) - (days * (3600 * 24)) - (hours * 3600))/60)
+    weeks = int(instanceAge / (3600 * 24 * 7))
+    days = int((instanceAge - (weeks * 3600 * 24 * 7)) / (3600 * 24))
+    hours = int((instanceAge - (weeks * 3600 * 24 * 7) - (days * (3600 * 24))) / 3600)
+    minutes = int((instanceAge - (weeks * 3600 * 24 * 7) - (days * (3600 * 24)) - (hours * 3600)) / 60)
     seconds = int((instanceAge % 60))
 
     stringWeeks = str(weeks) + "w"
@@ -210,7 +207,6 @@ def ageCommand(instanceAge):
     else:
         stringMinutes = str(minutes)
     stringMinutes += "m"
-
 
     stringSeconds = ""
     if seconds < 10:
@@ -295,7 +291,7 @@ def fightResponse(currentMessage):
         try:
             if len(currentMessage.text) <= len("/fight "):
                 raise Exception
-            response = "OH SHIT, " + currentMessage.from_user.first_name.upper() + " WANTS TO FIGHT "  + currentMessage.text[len("/fight "):].upper() + "!"
+            response = "OH SHIT, " + currentMessage.from_user.first_name.upper() + " WANTS TO FIGHT " + currentMessage.text[len("/fight "):].upper() + "!"
             fightingMe = currentMessage.text[len("/fight "):].lower() == "adamtestbot" or currentMessage.text[len("/fight "):].lower() == "@adamtestbot"
         except Exception:
             fightingMe = True
@@ -329,9 +325,6 @@ def pickResponse(messageText):
         answerIndex = random.randint(0, len(wholeTextArray) - 1)
         return wholeTextArray[answerIndex]
 
-
-
-
 def blaze(currentMessage):
     checkingStats = False
     try:
@@ -340,8 +333,8 @@ def blaze(currentMessage):
             #db.create('username', 'name', 'counter', 'timestamp', mode="open") #Create a new DB if one doesn't exist. If it does, open it
             outputString = "JOINTS BLAZED:\n"
             K = list()
-            for user in __builtin__.blazeDB:
-            	K.append(user)
+            for user in builtins.blazeDB:
+                K.append(user)
             sortedK = sorted(K, key=lambda x: int(x['counter']), reverse=True)
             for user in sortedK:
                 pluralString = " JOINT"
@@ -361,8 +354,8 @@ def blaze(currentMessage):
     start = datetime.time(4, 20)
     end = datetime.time(4, 20)
     time_received = currentMessage.date
-    print start
-    print time_received
+    print(start)
+    print(time_received)
 
     start2 = datetime.time(16, 20)
     end2 = datetime.time(16, 20)
@@ -371,8 +364,8 @@ def blaze(currentMessage):
         if not checkingStats:
             return currentMessage.from_user.first_name + ", I know you like staying up late, but you really need to puff puff pass out."
     elif (start2 <= datetime.time(time_received.hour, time_received.minute) <= end2) and not checkingStats:
-        pointsReceived = 4 - int(time_received.second/15)
-        print "DEBUG TIME: PointsReceived=" + str(pointsReceived)
+        pointsReceived = 4 - int(time_received.second / 15)
+        print("DEBUG TIME: PointsReceived=" + str(pointsReceived))
 
         #db = Base('chatStorage/blaze.pdl') #The path to the database
         #db.create('username', 'name', 'counter', 'timestamp', mode="open") #Create a new DB if one doesn't exist. If it does, open it
@@ -381,19 +374,19 @@ def blaze(currentMessage):
         valueSuccessfullyChanged = False
         userPoints = 0
 
-        for user in __builtin__.blazeDB:
-              # print user['username']
+        for user in builtins.blazeDB:
+            # print user['username']
             if int(user['username']) == currentMessage.from_user.id:
                 if time.mktime(currentMessage.date.timetuple()) - 60 > int(user['timestamp']):
-                    __builtin__.blazeDB.update(user, counter=int(user['counter']) + pointsReceived)
+                    builtins.blazeDB.update(user, counter=int(user['counter']) + pointsReceived)
                     userPoints = user['counter']
-                    __builtin__.blazeDB.update(user, timestamp=int(time.mktime(currentMessage.date.timetuple())))
+                    builtins.blazeDB.update(user, timestamp=int(time.mktime(currentMessage.date.timetuple())))
                     valueSuccessfullyChanged = True
-                    print "Found user!\n"
+                    print("Found user!\n")
                 userWasFound = True
 
         if not userWasFound:
-            __builtin__.blazeDB.insert(currentMessage.from_user.id, currentMessage.from_user.first_name, pointsReceived, int(time.mktime(currentMessage.date.timetuple())))
+            builtins.blazeDB.insert(currentMessage.from_user.id, currentMessage.from_user.first_name, pointsReceived, int(time.mktime(currentMessage.date.timetuple())))
             userPoints = pointsReceived
 
         if valueSuccessfullyChanged or not userWasFound:
@@ -408,21 +401,18 @@ def blaze(currentMessage):
         if not checkingStats:
             return currentMessage.from_user.first_name + " failed to blaze."
 
-
-
-
 def first_vowel(s):
     if s[0].lower() != "y":
         i = re.search("[aeiouy]", s, re.IGNORECASE)
     else:
         i = re.search("[aeiou]", s, re.IGNORECASE)
-    return 0 if i == None else i.start()
+    return 0 if i is None else i.start()
 
 def log(user_id, currentMessage):
     try:
         K = list()
         logExists = os.path.exists('../log/' + str(user_id * -1) + 'log.csv')
-        fieldnames=['name', 'text']
+        fieldnames = ['name', 'text']
         if logExists:
             try:
                 with open('../log/' + str(user_id * -1) + 'log.csv', 'r+') as csvfile:
@@ -444,4 +434,3 @@ def log(user_id, currentMessage):
                 writer.writerow({'name': currentMessage.from_user.first_name, 'text': currentMessage.text})
     except Exception:
         traceback.format_exc()
-

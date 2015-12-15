@@ -14,11 +14,11 @@ import os
 
 import telegram
 
-from .. import atbSendFunctions
-from .. import atbMiscFunctions
+from .. import atbSendFunctions as atbSendFunctions
+from .. import atbMiscFunctions as atbMiscFunctions
 
 from pydblite import Base #The PyDbLite stuff
-import __builtin__
+import builtins
 
 #If you make your own python files for processing data, put them
 #In the community folder and import them here:
@@ -34,20 +34,18 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             atbSendFunctions.sendText(bot, chat_id, givenText, replyingMessageID, keyboardLayout)
 
     def sendPhoto(imageName):
-        atbSendFunctions.sendPhoto(bot, chat_id, "images/"+ imageName)
+        atbSendFunctions.sendPhoto(bot, chat_id, "images/" + imageName)
 
     def sendSticker(stickerName):
-        atbSendFunctions.sendSticker(bot, chat_id, "stickers/"+ stickerName)
+        atbSendFunctions.sendSticker(bot, chat_id, "stickers/" + stickerName)
 
     def passSpamCheck():
         return atbMiscFunctions.spamCheck(chat_id, currentMessage.date)
-
 
     try:
         chatInstanceArray[chat_id]['checking'] = True
     except Exception:
         chatInstanceArray[chat_id] = {'checking': True, 'adminDisable': False, 'spamTimestamp': 0, 'shottyTimestamp': 0, 'shottyWinner': "", 'checkingVehicles': False, 'whoArray': []}
-
 
     try:
         #commands go here, in this if-elif block. Python doesn't have switch statements.
@@ -177,7 +175,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                         valueSuccessfullyChanged = True
                         userWasFound = True
                 db.commit()
-                
+
                 if not userWasFound:
                     db.insert(currentMessage.reply_to_message.from_user.id, currentMessage.reply_to_message.from_user.first_name, 1)
                     db.commit()
@@ -210,5 +208,5 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
 
         return True
     except Exception:
-        print traceback.format_exc()
+        print(traceback.format_exc())
         return False

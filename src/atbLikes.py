@@ -86,8 +86,8 @@ def handleLikes(isLiking, currentMessage):
                         dislikes = 1
                         likes = 0
                     writer.writerow({'userID': currentMessage.reply_to_message.from_user.id, 'likes': likes, 'dislikes': dislikes})
-    except Exception as instanceException:
-        print traceback.format_exc()
+    except Exception:
+        print(traceback.format_exc())
 
 def likes(currentMessage):
     try:
@@ -102,13 +102,13 @@ def likes(currentMessage):
                     karma = int(likes) - int(dislikes)
                     response = "Since you asked, I have " + str(likes) + " likes and " + str(dislikes) + " dislikes, for a total of " + str(karma) + " karma. "
                     if karma > 0:
-                        response += "\xF0\x9F\x98\x83".decode("utf-8") #smiley
+                        response += "\xF0\x9F\x98\x83" # smiley
                     else:
-                        response += "\xF0\x9F\x98\xAD".decode("utf-8") #crying
+                        response += "\xF0\x9F\x98\xAD" # crying
                     return response
                     sentMyKarma = True
         except Exception:
-            print traceback.format_exc()
+            print(traceback.format_exc())
 
         if not sentMyKarma:
             userWasFound = False
@@ -128,5 +128,5 @@ def likes(currentMessage):
             else:
                 return "No like data found!"
     except Exception:
-        print traceback.format_exc()
+        print(traceback.format_exc())
         return ""

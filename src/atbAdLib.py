@@ -30,9 +30,10 @@ def getWho(chat_id):
         with open("chatStorage/" + str(chat_id) + "whoArray.csv", "r+") as csvfile:
             reader = csv.DictReader(csvfile)
             whoArrayCurrent = list(reader)
+            print(whoArrayCurrent)
             return random.choice(whoArrayCurrent)['who']
     except Exception:
-        print traceback.format_exc()
+        print(traceback.format_exc())
         return "[undefined]"
 def whoCouldItBe(chat_id):
     response = ""
@@ -160,8 +161,6 @@ def overwrite_response(s, name, chat_id):
         s = s.replace("/number", getNumber(), 1)
 
     return s
-
-
 
 def is_valid_text_overwrite(s):
     theString = s.lower()

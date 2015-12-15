@@ -11,14 +11,14 @@ import os
 
 import telegram
 
-import atbSendFunctions
-import atbMiscFunctions
-import atbAdLib
-import atbLikes
-import Community.atbCommunity as atbCommunity
+from . import atbSendFunctions
+from . import atbMiscFunctions
+from . import atbAdLib
+from . import atbLikes
+from .Community import atbCommunity as atbCommunity
 
 from pydblite import Base #The PyDbLite stuff
-import __builtin__
+import builtins
 
 chatInstanceArray = {}
 spamLimitTime = 15
@@ -37,7 +37,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
     def sendPhoto(imageName):
         global messageSent
         messageSent += 1
-        atbSendFunctions.sendPhoto(bot, chat_id, "images/"+ imageName)
+        atbSendFunctions.sendPhoto(bot, chat_id, "images/" + imageName)
 
     def sendSticker(stickerName):
         global messageSent
@@ -97,7 +97,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
 
         elif parsedCommand == "/vehicles" and (currentMessage.from_user.id == 51561968 or currentMessage.from_user.id == 44961843):
             chatInstanceArray[chat_id]['checkingVehicles'] = True
-            sendText("Do you like vehicles?", keyboardLayout=[["they\'re okay"],["I FUCKING LOVE VEHICLES"], ["they\'re okay"], ["they\'re okay"]])
+            sendText("Do you like vehicles?", keyboardLayout=[["they\'re okay"], ["I FUCKING LOVE VEHICLES"], ["they\'re okay"], ["they\'re okay"]])
 
         #normal commands go here
 
@@ -122,11 +122,11 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             sendText(atbMiscFunctions.blaze(currentMessage))
 
         elif parsedCommand == "/blazecommit" and currentMessage.from_user.id == 44961843:
-            __builtin__.blazeDB.commit()
+            builtins.blazeDB.commit()
 
         elif parsedCommand == "/blazeopen" and currentMessage.from_user.id == 44961843:
-            __builtin__.blazeDB = Base('chatStorage/blaze.pdl') #The path to the database
-            __builtin__.blazeDB.create('username', 'name', 'counter', 'timestamp', mode="open") #Create a new DB if one doesn't exist. If it does, open it
+            builtins.blazeDB = Base('chatStorage/blaze.pdl') #The path to the database
+            builtins.blazeDB.create('username', 'name', 'counter', 'timestamp', mode="open") #Create a new DB if one doesn't exist. If it does, open it
 
         elif parsedCommand == "/snail":
             sendText(atbMiscFunctions.snailResponse(messageText))
@@ -134,7 +134,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
         elif parsedCommand == "/essay":
             sendText(random.choice(["NO. FUCK ESSAYS.", "I DON\'T WANNA."]))
 
-        elif parsedCommand == "/kevi" + "\xC3\xB1".decode("utf-8"):
+        elif parsedCommand == "/kevi" + "\xC3\xB1":
             if passSpamCheck():
                 sendPhoto("kevin.jpg")
 
@@ -189,20 +189,20 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             sendText(atbMiscFunctions.objectionResponse(currentMessage), replyingMessageID=currentMessage.reply_to_message.message_id)
 
         elif parsedCommand == "/goodnight":
-            sendText("Good night, " + currentMessage.from_user.first_name + "! " + telegram.emoji.Emoji.SLEEPING_FACE.decode("utf-8"))
+            sendText("Good night, " + currentMessage.from_user.first_name + "! " + telegram.emoji.Emoji.SLEEPING_FACE)
 
         elif parsedCommand == "/goodmorning":
             time_received = currentMessage.date
             actual_time = datetime.time(time_received.hour, time_received.minute)
 
             if actual_time < datetime.time(12, 0) and actual_time > datetime.time(4, 59):
-                sendText("Good morning, " + currentMessage.from_user.first_name + "! " + telegram.emoji.Emoji.SMILING_FACE_WITH_OPEN_MOUTH.decode("utf-8"))
+                sendText("Good morning, " + currentMessage.from_user.first_name + "! " + telegram.emoji.Emoji.SMILING_FACE_WITH_OPEN_MOUTH)
             elif actual_time == datetime.time(3, 0):
                 sendText(currentMessage.from_user.first_name + ": Oh boy, three AM!")
             elif actual_time <= datetime.time(4, 59):
                 sendText("It's the middle of the night, " + currentMessage.from_user.first_name + "! Go to bed!")
             else:
-                sendText(currentMessage.from_user.first_name + "\'s a lazy shit. It isn\'t morning anymore! " + telegram.emoji.Emoji.WEARY_FACE.decode("utf-8"))
+                sendText(currentMessage.from_user.first_name + "\'s a lazy shit. It isn\'t morning anymore! " + telegram.emoji.Emoji.WEARY_FACE)
 
         elif parsedCommand == "/8ball":
             if currentMessage.from_user.id == 68536910:
@@ -219,7 +219,7 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                 chatInstanceArray[chat_id]['shottyWinner'] = currentMessage.from_user.first_name
                 sendText(chatInstanceArray[chat_id]['shottyWinner'] + " called shotgun. Dibs no blitz for the next hour.")
             else:
-                timeRemaining = int(chatInstanceArray[chat_id]['shottyTimestamp'] - (time.mktime(currentMessage.date.timetuple()) - 3600))/60 + 1
+                timeRemaining = int(chatInstanceArray[chat_id]['shottyTimestamp'] - (time.mktime(currentMessage.date.timetuple()) - 3600)) / 60 + 1
                 sendText(chatInstanceArray[chat_id]['shottyWinner'] + " has shotty for the next " + str(timeRemaining) + " minutes.")
 
         elif parsedCommand == "/help":
@@ -249,5 +249,5 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
 
         return True
     except Exception:
-        print traceback.format_exc()
+        print(traceback.format_exc())
         return True
