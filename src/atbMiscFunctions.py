@@ -175,13 +175,12 @@ def snailResponse(messageText):
 
 def objectionResponse(currentMessage):
     try:
-        if currentMessage.reply_to_message.username.lower() == "adamtestbot":
-            response = "Objecting to me, " + currentMessage.from_user.first_name + "? Overruled."
+        if currentMessage.reply_to_message.from_user.first_name.lower() == "adamtestbot":
+            return "Objecting to me, " + currentMessage.from_user.first_name + "? Overruled."
         else:
-            response = currentMessage.from_user.first_name.upper() + " OBJECTS TO WHAT " + currentMessage.reply_to_message.from_user.first_name.upper() + " SAID HERE!"
+            return currentMessage.from_user.first_name.upper() + " OBJECTS TO WHAT " + currentMessage.reply_to_message.from_user.first_name.upper() + " SAID HERE!"
     except Exception: #reply_to_message didn't exist
-        response = "Object to messages by replying to them with /objection."
-    return response
+        return "Object to messages by replying to them with /objection."
 
 def ageCommand(instanceAge):
     weeks = int(instanceAge / (3600 * 24 * 7))
