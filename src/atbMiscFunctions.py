@@ -168,7 +168,7 @@ def snailResponse(messageText):
         result = ""
         for modifyingWord in re.split(r'[@\s*]', messageText.lower()):
             if modifyingWord != "/snail":
-                result += "sn" + modifyingWord[first_vowel(modifyingWord.decode("ascii")):] + " "
+                result += "sn" + modifyingWord[first_vowel(modifyingWord):] + " "
         return result
     except Exception:
         return "Usage: /snail word - NO WEIRD CHARACTERS."
