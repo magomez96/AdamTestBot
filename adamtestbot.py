@@ -11,7 +11,7 @@ import os
 import telegram
 import gc
 
-import __builtin__ #I'm so sorry
+import builtins #I'm so sorry
 from pydblite import Base #The PyDbLite stuff
 
 import src.atbCommands as atbCommands
@@ -26,8 +26,8 @@ atb = telegram.Bot(token=APIKEY)
 updates = {}
 currentMessage = {}
 
-print "@AdamTestBot 2.0 - Ready to go!"
-print "Written by Adam Gincel, shoutouts to Smesh, KARMAT, Dank Meme Network, and SG(DC)^2"
+print("@AdamTestBot 3.0 - Ready to go!")
+print("Written by Adam Gincel, rewritten by Matt Gomez, shoutouts to Smesh, KARMAT, Dank Meme Network, and SG(DC)^2")
 
 newestOffset = 0
 networkFailure = True
@@ -38,21 +38,21 @@ while networkFailure:
             newestOffset = u.update_id
         networkFailure = False
     except Exception:
-        print traceback.format_exc()
-        print "...",
-print "...Connected!"
+        print(traceback.format_exc())
+        print("...", end=' ')
+print("...Connected!")
 
 startTime = datetime.datetime.now()
 
-previousTime = datetime.datetime.now().time();
-currentTime = 0;
+previousTime = datetime.datetime.now().time()
+currentTime = 0
 
 instanceAge = 0
 refreshRate = 0.2
 user_id = 0
 
-__builtin__.blazeDB = Base('chatStorage/blaze.pdl') #The path to the database
-__builtin__.blazeDB.create('username', 'name', 'counter', 'timestamp', mode="open") #Create a new DB if one doesn't exist. If it does, open it
+builtins.blazeDB = Base('chatStorage/blaze.pdl') #The path to the database
+builtins.blazeDB.create('username', 'name', 'counter', 'timestamp', mode="open") #Create a new DB if one doesn't exist. If it does, open it
 
 blacklist = [-23535579, -28477145]
 
@@ -61,18 +61,17 @@ while running:
     networkFailure = True
     while networkFailure:
         try:
-            updates = atb.getUpdates(offset=newestOffset+1)
+            updates = atb.getUpdates(offset=newestOffset + 1)
             for u in updates:
                 newestOffset = u.update_id
             networkFailure = False
         except Exception:
-            print "...",
+            print("...", end=' ')
 
     if instanceAge % 10 == 0: #print 1 X every ten ticks
-        print "Y"
+        print("Y")
     else:
-        print "X",
-
+        print("X", end=' ')
 
     for u in updates:
         currentMessage = u.message
@@ -82,19 +81,17 @@ while running:
                 parsedCommand = re.split(r'[@\s:,\'*]', currentMessage.text.lower())[0]
                 running = atbCommands.process(atb, user_id, parsedCommand, currentMessage.text, currentMessage, u, datetime.datetime.now() - startTime)
 
-
         except Exception as myException:
-            print traceback.format_exc()
+            print(traceback.format_exc())
 
     currentTime = datetime.datetime.now().time()
 
     if previousTime.minute != currentTime.minute:
         if currentTime.hour == 16 and currentTime.minute == 21: #commit Blaze Database
-            __builtin__.blazeDB.commit()
+            builtins.blazeDB.commit()
             atb.sendMessage(chat_id=-12788453, text="Successfully committed Blaze database.")
 
     previousTime = currentTime
-
 
     gc.collect()
     instanceAge += 1
