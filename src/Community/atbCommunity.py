@@ -11,7 +11,7 @@ import re
 import json
 import traceback
 import os
-
+import psutil
 import telegram
 
 from .. import atbSendFunctions as atbSendFunctions
@@ -188,7 +188,14 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
                 sendSticker("water.webp")
             else:
                 sendSticker("hoboken_water.webp")
-
+        elif parsedCommand == "/sysinfo":
+            cpu = []
+            for x in range(5):
+                cpu.append(psutil.cpu_percent(interval=1))
+            cpuavg = round(sum(cpu) / float(len(cpu)), 1)
+            memuse = psutil.virtual_memory()[2]
+            diskuse = psutil.disk_usage('/')[3]
+            sendText("The CPU uasge is " + str(cpuavg) + "%, the memory usage is " + str(memuse) + "%, and " + str(diskuse) + "% of the disk has been used.")
         #this command should go last:
         elif parsedCommand == "/community": #add your command to this list
             response = "/mom - get the camera\n"
@@ -200,7 +207,8 @@ def process(bot, chat_id, parsedCommand, messageText, currentMessage, update, in
             response += "/rip (something) - I can't believe they're dead!\n"
             response += "/hiss stats - see how many time Robyn has hissed at people\n"
             response += "/scrub or /scrub stats - see who sponsors me or how many times Matt Gomez has called you a scrub\n"
-            response += "/water - does this water look brown to you?"
+            response += "/water - does this water look brown to you?\n"
+            response += "/sysinfo - Gets server performance info."
             sendText(response)
 
         else:
